@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Pixel Petal Bloom
+
+Let's say I have many images, what I want them is the animate in a pixeletd version, and create a circle being so small that can't be distibguesd from each other but clearly the ciurcle is made of that images acticing as individual pixels
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://project-d6aaab.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/5f6b715e-190a-47a6-85b7-96b0120a8a35).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
