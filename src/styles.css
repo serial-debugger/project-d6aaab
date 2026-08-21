@@ -196,7 +196,25 @@
   image-rendering: pixelated;
 }
 
+.mosaic-progress {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mosaic-progress span {
+  width: 1.75rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: oklch(1 0 0 / 12%);
+  transition: background 400ms ease;
+}
+
+.mosaic-progress span[data-done="true"] {
+  background: var(--accent);
+}
+
 .mosaic-replay {
+
   border: 1px solid var(--border);
   border-radius: 9999px;
   padding: 0.6rem 1.4rem;
