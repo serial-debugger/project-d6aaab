@@ -63,38 +63,39 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --background: oklch(0.16 0.012 250);
+  --foreground: oklch(0.95 0.006 250);
+  --glow: oklch(0.42 0.09 45 / 30%);
+  --card: oklch(0.2 0.014 250);
+  --card-foreground: oklch(0.95 0.006 250);
+  --popover: oklch(0.2 0.014 250);
+  --popover-foreground: oklch(0.95 0.006 250);
+  --primary: oklch(0.78 0.14 62);
+  --primary-foreground: oklch(0.18 0.02 60);
+  --secondary: oklch(0.26 0.016 250);
+  --secondary-foreground: oklch(0.95 0.006 250);
+  --muted: oklch(0.26 0.016 250);
+  --muted-foreground: oklch(0.68 0.015 250);
+  --accent: oklch(0.79 0.13 60);
+  --accent-foreground: oklch(0.18 0.02 60);
+  --destructive: oklch(0.62 0.21 25);
+  --destructive-foreground: oklch(0.97 0.005 250);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.79 0.13 60);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: oklch(0.2 0.014 250);
+  --sidebar-foreground: oklch(0.95 0.006 250);
+  --sidebar-primary: oklch(0.79 0.13 60);
+  --sidebar-primary-foreground: oklch(0.18 0.02 60);
+  --sidebar-accent: oklch(0.26 0.016 250);
+  --sidebar-accent-foreground: oklch(0.95 0.006 250);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.79 0.13 60);
 }
 
 .dark {
@@ -140,5 +141,90 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Image-pixel mosaic
+ * Every tile is one full image squeezed into a few pixels, so the
+ * individual photographs dissolve into a single circular field.
+ * --------------------------------------------------------------- */
+
+.mosaic-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.75rem;
+}
+
+.mosaic-circle {
+  position: relative;
+  width: min(78vw, 30rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 0 0 1px oklch(1 0 0 / 8%),
+    0 2.5rem 6rem oklch(0 0 0 / 55%);
+}
+
+.mosaic-pixel {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  transform: translate3d(var(--from-x), var(--from-y), 0) scale(0.15)
+    rotate(var(--from-rotate));
+  opacity: 0;
+  filter: saturate(0.2) brightness(1.6);
+  transition:
+    transform 1150ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 700ms ease-out,
+    filter 1150ms ease-out;
+  will-change: transform, opacity;
+}
+
+.mosaic-circle[data-assembled="true"] .mosaic-pixel {
+  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  opacity: 1;
+  filter: saturate(1) brightness(1);
+}
+
+/* subtle breathing once assembled */
+.mosaic-circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, transparent 55%, oklch(0 0 0 / 45%) 100%);
+  pointer-events: none;
+}
+
+.mosaic-replay {
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  background: oklch(1 0 0 / 3%);
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background 200ms ease;
+}
+
+.mosaic-replay:hover {
+  color: var(--foreground);
+  border-color: var(--accent);
+  background: oklch(1 0 0 / 7%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mosaic-pixel {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
   }
 }
