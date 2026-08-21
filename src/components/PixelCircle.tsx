@@ -44,7 +44,7 @@ function buildPixels(resolution: number): Pixel[] {
         key: `${row}-${col}`,
         left: (col / resolution) * 100,
         top: (row / resolution) * 100,
-        src: SOURCES[Math.floor(r * SOURCES.length) % SOURCES.length],
+        src: SOURCES[Math.floor(r * SOURCES.length) % SOURCES.length] ?? SOURCES[0]!,
         // wave outward from the centre, with a touch of scatter
         delay: dist * 900 + r * 320,
         fromX: (dx * 340 + (r - 0.5) * 160).toFixed(1) as unknown as number,
